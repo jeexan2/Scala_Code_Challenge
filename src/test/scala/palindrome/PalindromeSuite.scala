@@ -1,8 +1,8 @@
-package palindrome_a
+package palindrome
 
 import munit._
 
-class PalindromeAsuite extends FunSuite{
+class PalindromeSuite extends FunSuite{
   test("Palindromes are correctly identified") {
     assert(Palindrome.isPalindrome("kayak"))
     assert(Palindrome.isPalindrome("level"))
