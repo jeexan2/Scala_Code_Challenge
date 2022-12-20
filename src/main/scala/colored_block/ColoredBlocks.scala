@@ -2,7 +2,8 @@ package colored_block
 
 import doodle.image.Image
 import doodle.core.Color
-import scala.annotation._
+
+import scala.annotation.tailrec
 
 object ColoredBlocks {
   // The block used to create the stack of blocks
@@ -11,8 +12,7 @@ object ColoredBlocks {
   // Example showing how to create a stack of blocks
   val stack = block.above(block.above(Image.empty))
 
- @tailrec
-  def helper(count: Int, image: Image): Image =
+ @tailrec def helper(count: Int, image: Image): Image =
     if (count == 0) image
     else
       helper(count - 1, block.above(image))

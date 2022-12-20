@@ -11,11 +11,15 @@ package password_checker
 
 object PasswordChecker {
   val punctuations: List[String]  = List(".",","," ;", ":", "?", "!","\"","_","(",")")
-  def hasPunctuation(word: String) : Boolean =
-    word.exists(char => punctuations.contains(char))
-    def isValidPassword(password: String) : Boolean =
-      password.size >= 8 &&
-        password.exists(_.isUpper) &&
-        password.exists(_.isLower) &&
-        (password.exists(_.isDigit) || hasPunctuation(password))
+//  def hasPunctuation(word: String) : Boolean =
+//    word.exists(char => punctuations.contains(char))
+  
+  def isDigitOrPunctuation(word: String) : Boolean =
+    word.exists(char => char.isDigit || punctuations.contains(char))
+    
+  def isValidPassword(password: String) : Boolean =
+    password.size >= 8 &&
+      password.exists(_.isUpper) &&
+      password.exists(_.isLower) &&
+      isDigitOrPunctuation(password)
 }
