@@ -61,7 +61,14 @@ object BasketBallGenerator {
   def reboundEvent(offense: Team,defense: Team): Random[Event] =
     ???
 
-  def possesionEvents(offense: Team,defense: Team): Random[List[Event]] =
+  def posessionEvents(offense: Team,defense: Team): Random[List[Event]] =
+    ???
+
+  def gameEvents(
+                count: Int,
+                offense: Team,
+                defense: Team
+                ): Random[List[Event]] =
     ???
 }
 
