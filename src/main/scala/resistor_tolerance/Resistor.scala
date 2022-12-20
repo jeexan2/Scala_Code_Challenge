@@ -1,4 +1,4 @@
-package ResistorTolerance
+package resistor_tolerance
 
 sealed trait Resistor {
   def resistance: Double
