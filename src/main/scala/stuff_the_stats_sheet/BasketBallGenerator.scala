@@ -56,7 +56,20 @@ object BasketBallGenerator {
     )
 
   def shotEvent(team:String,player: Player): Random[Event] =
-    ???
+    for{
+      twoPt <- Random.double.map(_ <= player.twoPointPropensity)
+      make_ <- Random.double.map( r =>
+        if twoPt then r <= player.twoPointPercentage
+        else r <= player.threePointPercentage
+      )
+    } yield {
+      if twoPt then
+        if make_ then Event.TwoPtMake(player.name,team)
+        else Event.TwoPtMiss(player.name,team)
+      else
+        if make_ then Event.ThreePtMake(player.name,team)
+        else Event.ThreePtMiss(player.name,team)
+    }
 
   def reboundEvent(offense: Team,defense: Team): Random[Event] =
     ???
@@ -69,7 +82,12 @@ object BasketBallGenerator {
                 offense: Team,
                 defense: Team
                 ): Random[List[Event]] =
-    ???
+    if count == 0 then Random.always(List.empty)
+    else
+      for{
+        events <- posessionEvents(offense,defense)
+        rest <- gameEvents(count-1,defense,offense)
+      }yield events ++ rest
 }
 
 
