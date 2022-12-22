@@ -115,4 +115,3 @@ object BasketBallGenerator {
       }yield events ++ rest
 }
 
-
