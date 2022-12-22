@@ -72,10 +72,35 @@ object BasketBallGenerator {
     }
 
   def reboundEvent(offense: Team,defense: Team): Random[Event] =
-    ???
+    for{
+      defensive <- Random.double.map(_ <= defensiveReboundPropensity)
+      player <-
+        if defensive then Random.oneOf(defense.players: _*)
+        else Random.oneOf(offense.players: _*)
+    }yield {
+      if defensive then Event.DefensiveRebound(player.name,defense.name)
+      else Event.OffensiveRebound(player.name,offense.name)
+    }
 
   def posessionEvents(offense: Team,defense: Team): Random[List[Event]] =
-    ???
+    for{
+      shooter <- Random.oneOf(offense.players: _*)
+      shot <- shotEvent(offense.name,shooter)
+      events <-
+        if shot.make then Random.always(List(shot))
+        else {
+          reboundEvent(offense,defense).flatMap{ evt =>
+            evt match{
+              case rebound: Event.OffensiveRebound =>
+                posessionEvents(offense,defense).map(evts =>
+                  shot :: rebound :: evts
+                )
+              case other => Random.always(List(shot))
+            }
+
+          }
+        }
+    }yield events
 
   def gameEvents(
                 count: Int,
